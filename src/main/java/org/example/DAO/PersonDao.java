@@ -32,7 +32,7 @@ public class PersonDAO extends BaseDAO<Person> {
 
 
     @Override
-    public boolean update(Person element) {
+    public boolean update(Person element) throws SQLException {
         request = "DELETE person set firts_name = ?, last_name = ?, where id = ?";
         statement = _connection.prepareStatement(request, Statement.RETURN_GENERATED_KEYS );
         statement.setString(1, element.getFirstName());
@@ -72,9 +72,7 @@ public class PersonDAO extends BaseDAO<Person> {
                 }
             }
             return person;
-        }
-        return null;
-    }
+            }
 
     @Override
     public List<Person> get() throws SQLException {
@@ -87,15 +85,9 @@ public class PersonDAO extends BaseDAO<Person> {
                     resultSet.getString("first_name"),
                     resultSet.getString("last_name"));
             result.add(person); // A chaque personne, on crée une ligne avec un resultat
-        }
-        if(connection != null){
-            try{
-                connection.close();
-            }catch (SQLException e){
-                e.printStackTrace();
-            }
-        }
-        return person;
-    }
 
+            }
+        return result;
+    }
 }
+
